@@ -120,12 +120,17 @@ function loadSTLFile(filePath, position, color, rotationAxis, rotationSpeed) {
         stlMeshes.push(mesh);  // Store the mesh with rotation data in the array
     });
 }
-
-
 // Load multiple STL files
-loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, -3), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
-loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -3), 0xff7777, 'z', 1);  // Second STL at position (3, 0, -3)
-loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, -3), 0x77ff77, 'x', .1);  // Third STL at position (-3, 0, -3)
+// loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, -3), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
+// loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -3), 0xff7777, 'z', 1);  // Second STL at position (3, 0, -3)
+// loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, -3), 0x77ff77, 'x', .1);  // Third STL at position (-3, 0, -3)
+
+
+//plane 
+const geometry = new THREE.PlaneGeometry( 100, 100 );
+const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+const plane = new THREE.Mesh( geometry, material );
+scene.add( plane );
 
 // Add a particle system for shimmering effect
 const particleCount = 2000;
@@ -140,7 +145,7 @@ particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 
 
 const particlesMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
-    size: 0.1,
+    size: .2,
     transparent: true,
     opacity: 0.8
 });
@@ -210,8 +215,16 @@ function animate() {
     // Animate the particles (create shimmer effect)
     particles.rotation.y += 0.0001;  // Slowly rotate particles to create a dynamic effect
 
+    // Ensure the video texture updates if the video is playing
+    if (video.readyState >= video.HAVE_CURRENT_DATA) {
+        videoTexture.needsUpdate = true;
+    }
+
     renderer.render(scene, camera);
 }
+video.addEventListener('play', () => {
+    console.log("Video is playing!");
+});
 
 // Handle window resize
 window.addEventListener('resize', () => {
