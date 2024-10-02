@@ -120,7 +120,6 @@ function loadSTLFile(filePath, position, color, rotationAxis, rotationSpeed) {
 }
 
 
-// Load multiple STL files
 loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, -3), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
 loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -3), 0xff7777, 'z', 1);  // Second STL at position (3, 0, -3)
 loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, -3), 0x77ff77, 'x', .1);  // Third STL at position (-3, 0, -3)
