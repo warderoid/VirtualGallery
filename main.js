@@ -43,7 +43,7 @@ let moveLeft = false;
 let moveRight = false;
 let moveUp = false;
 let moveDown = false;
-const moveSpeed = 0.5;
+const moveSpeed = 0.8;
 
 // WASD + Space (up) and Shift (down) movement controls
 document.addEventListener('keydown', (event) => {
@@ -96,12 +96,49 @@ document.addEventListener('keyup', (event) => {
 });
 
 
-//Plane
-const geometry = new THREE.PlaneGeometry( 100, 100 );
-const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-const plane = new THREE.Mesh( geometry, material );
-scene.add( plane );
+// //Plane
+// const geometry = new THREE.PlaneGeometry( 100, 100 );
+// const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+// const plane = new THREE.Mesh( geometry, material );
+// plane.position.set(0, 60  , 1000);  // Move it in front of the camera, z = -5
 
+// scene.add( plane );
+
+
+
+// Create a video element
+const video = document.createElement('video');
+video.src = '/Video/AR1.mp4';  // Replace with the path to your video
+video.load();  // Load the video
+video.muted = true;  // Optionally mute the video
+video.loop = true;   // Loop the video
+video.play();        // Start playing the video
+
+// Create a video texture
+const videoTexture = new THREE.VideoTexture(video);
+videoTexture.minFilter = THREE.LinearFilter;  // Set the min filter
+videoTexture.magFilter = THREE.LinearFilter;  // Set the mag filter
+videoTexture.format = THREE.RGBFormat;
+
+// Create a plane material using the video texture
+const videoMaterial = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide });
+
+// Create a plane geometry
+const videoPlaneGeometry = new THREE.PlaneGeometry(100, 100);
+
+// Create the plane mesh with video material
+const videoPlane = new THREE.Mesh(videoPlaneGeometry, videoMaterial);
+
+// Position the plane in the scene
+videoPlane.position.set(0, 60, 1000);  // Adjust this based on where you want the video to appear
+
+// Add the video plane to the scene
+scene.add(videoPlane);
+
+// Define variables for circular rotation
+let radius = 1000;  // The distance of the plane from the camera
+let angle = 0;      // The current angle of rotation
+let rotationSpeed = 0.001;  // Speed of rotation
 
 // Global references to the STL meshes with speeds and rotation axes
 let stlMeshes = [];
@@ -128,9 +165,9 @@ function loadSTLFile(filePath, position, color, rotationAxis, rotationSpeed) {
 }
 
 
-loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, -3), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
-loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -3), 0xff7777, 'z', 1);  // Second STL at position (3, 0, -3)
-loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, -3), 0x77ff77, 'x', .1);  // Third STL at position (-3, 0, -3)
+loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, 200), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
+loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -150), 0xff7777, 'z', .004);  // Second STL at position (3, 0, -3)
+loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, 50), 0x77ff77, 'x', .05);  // Third STL at position (-3, 0, -3)
 
 // Add a particle system for shimmering effect
 const particleCount = 2000;
@@ -145,7 +182,7 @@ particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 
 
 const particlesMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
-    size: 0.1,
+    size: 0.3,
     transparent: true,
     opacity: 0.8
 });
@@ -191,6 +228,20 @@ function flyMove() {
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
+
+
+    // Update the angle to rotate the plane
+    angle += rotationSpeed/2;
+
+    // Calculate the new position of the plane based on the angle
+    const x = radius * Math.cos(angle);
+    const z = radius * Math.sin(angle);
+
+    // Set the new position of the video plane around the camera
+    videoPlane.position.set(x, 60, z);
+
+    // Ensure the plane is always facing the camera
+    videoPlane.lookAt(camera.position);
 
     // Rotate each STL model based on its axis and speed
     stlMeshes.forEach(mesh => {
