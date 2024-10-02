@@ -7,7 +7,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0a0a0a);  // Dark background color
 
 // Camera setup
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 // Store initial camera position and rotation
 const initialCameraPosition = new THREE.Vector3(0, 1.6, 5);
@@ -43,7 +43,7 @@ let moveLeft = false;
 let moveRight = false;
 let moveUp = false;
 let moveDown = false;
-const moveSpeed = 0.5;
+const moveSpeed = 0.1;
 
 // WASD + Space (up) and Shift (down) movement controls
 document.addEventListener('keydown', (event) => {
@@ -124,6 +124,7 @@ function loadSTLFile(filePath, position, color, rotationAxis, rotationSpeed) {
 loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, -3), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
 loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -3), 0xff7777, 'z', 1);  // Second STL at position (3, 0, -3)
 loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, -3), 0x77ff77, 'x', .1);  // Third STL at position (-3, 0, -3)
+//Z-axis at speed 0.03
 
 // Add a particle system for shimmering effect
 const particleCount = 2000;
@@ -131,7 +132,7 @@ const particlesGeometry = new THREE.BufferGeometry();
 const positions = new Float32Array(particleCount * 3);  // 3 coordinates (x, y, z) for each particle
 
 for (let i = 0; i < particleCount * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 5000;
+    positions[i] = (Math.random() - 0.5) * 50;
 }
 
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -206,7 +207,7 @@ function animate() {
     }
 
     // Animate the particles (create shimmer effect)
-    particles.rotation.y += 0.0001;  // Slowly rotate particles to create a dynamic effect
+    particles.rotation.y += 0.001;  // Slowly rotate particles to create a dynamic effect
 
     renderer.render(scene, camera);
 }
@@ -219,4 +220,3 @@ window.addEventListener('resize', () => {
 });
 
 animate();  // Start the animation
-
