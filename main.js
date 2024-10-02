@@ -3,9 +3,10 @@
 /////
 
 // Import Three.js and STLLoader from node_modules
-import * as THREE from 'three';
-import { STLLoader } from 'three/addons/loaders/STLLoader.js';
-import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import * as THREE from 'https://unpkg.com/three@0.150.0/build/three.module.js';
+import { STLLoader } from 'https://unpkg.com/three@0.150.0/examples/jsm/loaders/STLLoader.js';
+import { PointerLockControls } from 'https://unpkg.com/three@0.150.0/examples/jsm/controls/PointerLockControls.js';
+
 
 // Scene setup
 const scene = new THREE.Scene();
