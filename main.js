@@ -1,6 +1,11 @@
+
+
+/////
+
+// Import Three.js and STLLoader from node_modules
 import * as THREE from 'three';
-import { STLLoader } from './node_modules/three/examples/jsm/loaders/STLLoader.js';
-import { PointerLockControls } from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -119,12 +124,10 @@ function loadSTLFile(filePath, position, color, rotationAxis, rotationSpeed) {
     });
 }
 
-
 // Load multiple STL files
 loadSTLFile('STLs/leafScan.stl', new THREE.Vector3(0, 0, -3), 0x7777ff, 'y', 0.01);  // First STL at position (0, 0, -3)
 loadSTLFile('STLs/pineCone.stl', new THREE.Vector3(300, 100, -3), 0xff7777, 'z', 1);  // Second STL at position (3, 0, -3)
 loadSTLFile('STLs/waterBird.stl', new THREE.Vector3(-300, -1000, -3), 0x77ff77, 'x', .1);  // Third STL at position (-3, 0, -3)
-//Z-axis at speed 0.03
 
 // Add a particle system for shimmering effect
 const particleCount = 2000;
