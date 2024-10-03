@@ -117,7 +117,7 @@ videoTexture.format = THREE.RGBFormat;
 const videoMaterial = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide });
 
 // Create a plane geometry
-const videoPlaneGeometry = new THREE.PlaneGeometry(100, 100);
+const videoPlaneGeometry = new THREE.PlaneGeometry(200, 100);
 
 // Create the plane mesh with video material
 const videoPlane = new THREE.Mesh(videoPlaneGeometry, videoMaterial);
