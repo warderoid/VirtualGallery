@@ -96,13 +96,6 @@ document.addEventListener('keyup', (event) => {
 });
 
 
-// //Plane
-// const geometry = new THREE.PlaneGeometry( 100, 100 );
-// const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-// const plane = new THREE.Mesh( geometry, material );
-// plane.position.set(0, 60  , 1000);  // Move it in front of the camera, z = -5
-
-// scene.add( plane );
 
 
 
