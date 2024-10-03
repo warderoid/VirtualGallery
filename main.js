@@ -101,7 +101,7 @@ document.addEventListener('keyup', (event) => {
 
 // Create a video element
 const video = document.createElement('video');
-video.src = '/Video/AR1.mp4';  // Replace with the path to your video
+video.src = 'Video/AR1.mp4';  // Replace with the path to your video
 video.load();  // Load the video
 video.muted = true;  // Optionally mute the video
 video.loop = true;   // Loop the video
